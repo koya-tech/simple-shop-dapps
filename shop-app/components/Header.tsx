@@ -11,7 +11,7 @@ const Header = () => {
     };
   
   return (
-    <div className="w-full mx-auto p-4 lg:p-6 bg-cs-white">
+    <div className="w-full max-w-7xl mx-auto p-4 lg:p-6 bg-cs-white">
       <div className="flex justify-between items-center">
         <button className="p-2 lg:hidden" onClick={toggleMenu}>
           <div className="space-y-1">
