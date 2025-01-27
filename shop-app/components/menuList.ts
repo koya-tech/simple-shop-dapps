@@ -1,16 +1,16 @@
 const menu = [
     {
-        name: 'Home',
-        link: '/'
+        name: "Home",
+        link: "/",
     },
     {
-        name: 'Products',
-        link: '/products'
+        name: "Products",
+        link: "/products",
     },
     {
-        name: 'Cart',
-        link: '/cart'
-    }
-]
+        name: "Cart",
+        link: "/cart",
+    },
+];
 
 export default menu;
