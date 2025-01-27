@@ -12,7 +12,7 @@ export default {
         sans: ['var(--font-dm-sans)'],
       },
       colors: {
-        cc: {
+        cs: {
           white: '#ffffff',
           black: '#000000',
           lightgray: '#f6f6f6',
