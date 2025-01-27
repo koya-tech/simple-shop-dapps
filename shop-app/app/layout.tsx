@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.variable} font-sans antialiased`}
+        className={`${dmSans.variable} font-sans antialiased `}
       >
         <Header />
         {children}

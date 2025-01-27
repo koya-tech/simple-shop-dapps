@@ -12,8 +12,13 @@ export default {
         sans: ['var(--font-dm-sans)'],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        cc: {
+          white: '#ffffff',
+          black: '#000000',
+          lightgray: '#f6f6f6',
+          darkgrey: '#7f7f7f',
+          green:'#0ACF83',
+        }
       },
     },
   },
