@@ -1,58 +1,33 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
+import { sampleProducts, sampleCategories } from "@/collections/sampleData";
+import router from "next/navigation";
+import ProductType from "@/type";
+import { useCartStore } from "@/state/cartStore";
 
 const ProductList = () => {
-    const [activeCategory, setActiveCategory] = useState("All");
+    const [activeCategory, setActiveCategory] = useState("all");
+    const { addToCart } = useCartStore();
 
     // Sample product data
-    const products = [
-        {
-            id: 1,
-            name: "TMA-2 Modular Headphone",
-            price: 350,
-            category: "Headphone",
-            image: "/api/placeholder/200/200",
-            isNew: true,
-        },
-        {
-            id: 2,
-            name: "CO2 - Cable",
-            price: 25,
-            category: "Cable",
-            image: "/api/placeholder/200/200",
-        },
-        {
-            id: 3,
-            name: "TMA-2 HD Wireless",
-            price: 350,
-            category: "Headphone",
-            image: "/api/placeholder/200/200",
-        },
-        {
-            id: 4,
-            name: "Premium Headband",
-            price: 75,
-            category: "Headband",
-            image: "/api/placeholder/200/200",
-            isNew: true,
-        },
-        {
-            id: 5,
-            name: "Comfort Earpads",
-            price: 45,
-            category: "Earpads",
-            image: "/api/placeholder/200/200",
-        },
-    ];
-
-    const categories = ["All", "Headphone", "Headband", "Earpads", "Cable"];
+    const products = sampleProducts;
+    const categories = sampleCategories;
 
     const filteredProducts =
-        activeCategory === "All"
+        activeCategory === "all"
             ? products
             : products.filter((product) => product.category === activeCategory);
+
+    const handleClick = (product: ProductType) => {
+        if (product) {
+            addToCart(product);
+            router.redirect("/cart");
+        }
+    };
 
     return (
         <div className="max-w-7xl mx-auto px-4 lg:px-6 py-6">
@@ -66,11 +41,11 @@ const ProductList = () => {
                             className={`px-4 py-2 rounded-full whitespace-nowrap text-sm lg:text-base transition-colors
                 ${
                     activeCategory === category
-                        ? "bg-emerald-400 text-white"
+                        ? "bg-cs-green text-white"
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
                         >
-                            {category}
+                            {category.toUpperCase()}
                         </button>
                     ))}
                 </div>
@@ -81,41 +56,37 @@ const ProductList = () => {
                 {filteredProducts.map((product) => (
                     <div
                         key={product.id}
-                        className="bg-white rounded-xl p-4 hover:shadow-lg transition-shadow"
+                        className="flex flex-col justify-between bg-white rounded-xl p-4 hover:shadow-lg transition-shadow h-full"
                     >
                         {/* Product Image */}
-                        <div className="relative mb-4">
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-full aspect-square object-cover rounded-lg"
-                            />
-                            {/* {product.isNew && (
-                                <span className="absolute top-2 left-2 bg-emerald-400 text-white text-xs px-2 py-1 rounded-full">
-                                    New
-                                </span>
-                            )} */}
-                            {/* <button className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-50">
-                                <Heart size={20} className="text-gray-600" />
-                            </button> */}
-                        </div>
-
-                        {/* Product Info */}
-                        <div>
-                            <h3 className="font-medium mb-2 text-gray-900">
-                                {product.name}
-                            </h3>
-                            <div className="flex justify-between items-center">
-                                <span className="font-bold text-gray-900">
-                                    USD {product.price}
-                                </span>
-                                <button className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
-                                    <ShoppingCart
-                                        size={20}
-                                        className="text-gray-600"
-                                    />
-                                </button>
+                        <Link key={product.id} href={`/products/${product.id}`}>
+                            <div className="relative mb-4">
+                                <Image
+                                    src={product.image}
+                                    alt={product.title}
+                                    width={300}
+                                    height={300}
+                                    className="w-full aspect-square object-contain rounded-lg"
+                                />
+                                <h3 className="font-medium my-2 text-gray-900">
+                                    {product.title}
+                                </h3>
                             </div>
+                        </Link>
+                        {/* Product Info */}
+                        <div className="flex justify-between items-center">
+                            <span className="font-bold text-gray-900">
+                                USD {product.price}
+                            </span>
+                            <button
+                                onClick={() => handleClick(product)}
+                                className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+                            >
+                                <ShoppingCart
+                                    size={20}
+                                    className="text-gray-600"
+                                />
+                            </button>
                         </div>
                     </div>
                 ))}

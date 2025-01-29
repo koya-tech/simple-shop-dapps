@@ -1,86 +1,104 @@
+"use client";
+
 import React from "react";
-import { ArrowLeft, Trash2, ChevronRight } from "lucide-react";
-// import { useNavigate } from "react-router-dom";
+import Image from "next/image";
+import { ArrowLeft, Trash2, ChevronRight, Plus, Minus } from "lucide-react";
+import { CartItemType, useCartStore } from "@/state/cartStore";
 
 const ShoppingCart = () => {
-    // const navigate = useNavigate();
-
     // Sample cart data
-    const cartItems = [
-        {
-            id: 1,
-            category: "Headphone",
-            name: "TMA-2 Comfort Wireless",
-            price: 270,
-            quantity: 1,
-            image: "/api/placeholder/80/80",
-        },
-        {
-            id: 2,
-            category: "Cable",
-            name: "CO2 - Cable",
-            price: 25,
-            quantity: 1,
-            image: "/api/placeholder/80/80",
-        },
-    ];
+    const { cartItems, removeFromCart, updateQuantity } = useCartStore();
+    console.log("cartItems:", cartItems);
 
-    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    const totalItems = cartItems.reduce(
+        (sum: number, item: CartItemType) => sum + item.quantity,
+        0
+    );
     const totalPrice = cartItems.reduce(
-        (sum, item) => sum + item.price * item.quantity,
+        (sum: number, item: CartItemType) =>
+            sum + item.product.price * item.quantity,
         0
     );
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-cs-white max-w-7xl mx-auto">
             {/* Header */}
-            <header className="sticky top-0 z-50 bg-white px-4 py-3 flex items-center border-b border-gray-100">
-                <button
-                    // onClick={() => navigate(-1)}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                >
+            <div className="sticky top-0 z-50 bg-white px-4 py-3 flex items-center border-b border-gray-100">
+                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                     <ArrowLeft size={24} />
                 </button>
                 <h1 className="flex-1 text-center text-lg font-semibold">
                     Shopping Cart
                 </h1>
                 <div className="w-10" /> {/* Spacer for alignment */}
-            </header>
+            </div>
 
             {/* Cart Items */}
             <div className="px-4 py-6">
-                {cartItems.map((item, index) => (
-                    <div key={item.id} className="mb-6">
-                        {index === 0 && (
+                {cartItems.map((item) => (
+                    <div
+                        key={item.product.id}
+                        className="mb-6 bg-cs-lightgray p-4 rounded-xl"
+                    >
+                        {/* {index === 0 && (
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-lg font-medium">
-                                    {item.category}
+                                    {item.product.category}
                                 </h2>
                                 <button className="text-gray-500 hover:text-gray-700">
                                     Remove
                                 </button>
                             </div>
-                        )}
+                        )} */}
                         <div className="flex gap-4">
                             <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <img
-                                    src={item.image}
-                                    alt={item.name}
+                                <Image
+                                    src={item.product.image}
+                                    alt={item.product.title}
+                                    width={300}
+                                    height={300}
                                     className="w-16 h-16 object-contain"
                                 />
                             </div>
                             <div className="flex-1">
                                 <h3 className="font-medium mb-1">
-                                    {item.name}
+                                    {item.product.title}
                                 </h3>
                                 <p className="text-gray-900 mb-2">
-                                    USD {item.price}
+                                    USD {item.product.price}
                                 </p>
                                 <div className="flex justify-between items-center">
                                     <p className="text-gray-600">
                                         Qty {item.quantity}
                                     </p>
-                                    <button className="text-gray-500 hover:text-gray-700">
+                                    <div className="flex gap-2">
+                                        <Plus
+                                            onClick={() =>
+                                                updateQuantity(
+                                                    item.product.id,
+                                                    item.quantity + 1
+                                                )
+                                            }
+                                            className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                                        />
+                                        <Minus
+                                            onClick={() =>
+                                                updateQuantity(
+                                                    item.product.id,
+                                                    item.quantity - 1
+                                                )
+                                            }
+                                            className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-row-reverse mt-4">
+                                    <button
+                                        onClick={() =>
+                                            removeFromCart(item.product.id)
+                                        }
+                                        className="text-gray-500 hover:text-gray-700"
+                                    >
                                         <Trash2 size={20} />
                                     </button>
                                 </div>
@@ -100,7 +118,7 @@ const ShoppingCart = () => {
                 </div>
                 <button
                     // onClick={() => navigate("/checkout")}
-                    className="w-full bg-emerald-400 text-white py-4 rounded-xl font-medium hover:bg-emerald-500 transition-colors flex justify-center items-center gap-2"
+                    className="w-full bg-cs-green text-white py-4 rounded-xl font-medium hover:bg-emerald-500 transition-colors flex justify-center items-center gap-2"
                 >
                     Proceed to Checkout
                     <ChevronRight size={20} />
