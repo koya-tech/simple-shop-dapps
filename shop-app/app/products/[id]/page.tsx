@@ -3,21 +3,16 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
-import { sampleProducts } from "@/collections/sampleData";
 import { useCartStore } from "@/state/cartStore";
 import ProductType from "@/type";
 import { useRouter } from "next/navigation";
 
 const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
-    const [activeTab, setActiveTab] = useState("Overview");
-
     const tabs = ["Overview", "Other"];
-
     const { addToCart } = useCartStore();
-
-    // Sample product data
     const [product, setProduct] = useState<ProductType | null>(null);
-
+    const [activeTab, setActiveTab] = useState("Overview");
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
 
     const handleClick = () => {
@@ -29,11 +24,18 @@ const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
 
     useEffect(() => {
         const fetchProduct = async () => {
-            const resolvedParams = await params;
-            const foundProduct = sampleProducts.find(
-                (product) => product.id.toString() === resolvedParams.id
-            );
-            setProduct(foundProduct || null);
+            try {
+                const resolvedParams = await params;
+                const response = await fetch(
+                    `https://fakestoreapi.com/products/${resolvedParams.id}`
+                );
+                const data = await response.json();
+                setProduct(data);
+            } catch (error) {
+                console.error("Error fetching product:", error);
+            } finally {
+                setIsLoading(false);
+            }
         };
 
         fetchProduct();
@@ -73,6 +75,14 @@ const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
                 return null;
         }
     };
+
+    if (isLoading) {
+        return (
+            <div className="text-center py-12">
+                <p className="text-gray-600">Loading....</p>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 max-w-7xl mx-auto">

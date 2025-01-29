@@ -6,9 +6,7 @@ import { ArrowLeft, Trash2, ChevronRight, Plus, Minus } from "lucide-react";
 import { CartItemType, useCartStore } from "@/state/cartStore";
 
 const ShoppingCart = () => {
-    // Sample cart data
     const { cartItems, removeFromCart, updateQuantity } = useCartStore();
-    console.log("cartItems:", cartItems);
 
     const totalItems = cartItems.reduce(
         (sum: number, item: CartItemType) => sum + item.quantity,
@@ -40,16 +38,6 @@ const ShoppingCart = () => {
                         key={item.product.id}
                         className="mb-6 bg-cs-lightgray p-4 rounded-xl"
                     >
-                        {/* {index === 0 && (
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-lg font-medium">
-                                    {item.product.category}
-                                </h2>
-                                <button className="text-gray-500 hover:text-gray-700">
-                                    Remove
-                                </button>
-                            </div>
-                        )} */}
                         <div className="flex gap-4">
                             <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <Image

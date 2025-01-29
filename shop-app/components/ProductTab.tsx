@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
-import { sampleProducts, sampleCategories } from "@/collections/sampleData";
 import router from "next/navigation";
 import ProductType from "@/type";
 import { useCartStore } from "@/state/cartStore";
@@ -12,10 +11,39 @@ import { useCartStore } from "@/state/cartStore";
 const ProductList = () => {
     const [activeCategory, setActiveCategory] = useState("all");
     const { addToCart } = useCartStore();
+    const [products, setProducts] = useState<ProductType[]>([]);
+    const [categories, setCategories] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Sample product data
-    const products = sampleProducts;
-    const categories = sampleCategories;
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(
+                    "https://fakestoreapi.com/products"
+                );
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch(
+                    "https://fakestoreapi.com/products/categories"
+                );
+                const data = await response.json();
+                setCategories(data);
+            } catch (error) {
+                console.log("Error fetching categories:", error);
+            }
+        };
+        fetchCategories();
+        fetchProducts();
+    }, []);
 
     const filteredProducts =
         activeCategory === "all"
@@ -28,6 +56,14 @@ const ProductList = () => {
             router.redirect("/cart");
         }
     };
+
+    if (isLoading) {
+        return (
+            <div className="text-center py-12">
+                <p className="text-gray-600">Loading....</p>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-7xl mx-auto px-4 lg:px-6 py-6">
