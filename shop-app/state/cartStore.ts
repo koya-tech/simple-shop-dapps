@@ -1,18 +1,6 @@
-import ProductType from "@/type";
+import { CartItemType, CartStore, ProductType } from "@/types/type";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-export interface CartItemType {
-    product: ProductType;
-    quantity: number;
-}
-
-export interface CartStore {
-    cartItems: CartItemType[];
-    addToCart: (item: ProductType) => void;
-    removeFromCart: (id: number) => void;
-    updateQuantity: (id: number, quantity: number) => void;
-}
 
 export const useCartStore = create(
     persist<CartStore>(

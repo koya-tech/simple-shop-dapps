@@ -1,12 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, Trash2, ChevronRight, Plus, Minus } from "lucide-react";
-import { CartItemType, useCartStore } from "@/state/cartStore";
+import { useCartStore } from "@/state/cartStore";
+import { ethers } from "ethers";
+import { toast } from "@/hooks/use-toast";
+import { CartItemType } from "@/types/type";
+
+const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
+const CONTRACT_ABI = JSON.parse(process.env.NEXT_PUBLIC_CONTRACT_ABI!);
 
 const ShoppingCart = () => {
     const { cartItems, removeFromCart, updateQuantity } = useCartStore();
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const totalItems = cartItems.reduce(
         (sum: number, item: CartItemType) => sum + item.quantity,
@@ -17,6 +24,57 @@ const ShoppingCart = () => {
             sum + item.product.price * item.quantity,
         0
     );
+
+    const handleCheckout = async () => {
+        if (!window.ethereum) {
+            toast({
+                title: "Need to install MetaMask",
+                description:
+                    "If you want to do transaction, you need to install MetaMask",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        try {
+            setIsProcessing(true);
+
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner();
+
+            const contract = new ethers.Contract(
+                CONTRACT_ADDRESS,
+                CONTRACT_ABI,
+                signer
+            );
+
+            // const productIds = cartItems.map((item) => item.product.id);
+            // const quantities = cartItems.map((item) => item.quantity);
+
+            const purchaseItems = cartItems.map((item) => ({
+                productId: item.product.id,
+                amount: item.quantity,
+            }));
+
+            const tx = await contract.addPurchase(purchaseItems, totalPrice);
+
+            await tx.wait();
+
+            toast({
+                title: "Completed",
+                description: "register your purchase history on blockchain",
+            });
+        } catch (error) {
+            console.error("Checkout error:", error);
+            toast({
+                title: "Error occurred",
+                description: "Failed to register your purchase history",
+                variant: "destructive",
+            });
+        } finally {
+            setIsProcessing(false);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-cs-white max-w-7xl mx-auto">
@@ -105,11 +163,18 @@ const ShoppingCart = () => {
                     <span className="text-xl font-bold">USD {totalPrice}</span>
                 </div>
                 <button
-                    // onClick={() => navigate("/checkout")}
-                    className="w-full bg-cs-green text-white py-4 rounded-xl font-medium hover:bg-emerald-500 transition-colors flex justify-center items-center gap-2"
+                    onClick={handleCheckout}
+                    disabled={isProcessing}
+                    className="w-full bg-cs-green text-white py-4 rounded-xl font-medium hover:bg-emerald-500 transition-colors flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    Proceed to Checkout
-                    <ChevronRight size={20} />
+                    {isProcessing ? (
+                        "処理中..."
+                    ) : (
+                        <>
+                            Proceed to Checkout
+                            <ChevronRight size={20} />
+                        </>
+                    )}
                 </button>
             </div>
         </div>

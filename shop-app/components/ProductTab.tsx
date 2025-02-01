@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import router from "next/navigation";
-import ProductType from "@/type";
+import ProductType from "@/types/type";
 import { useCartStore } from "@/state/cartStore";
 
 const ProductList = () => {

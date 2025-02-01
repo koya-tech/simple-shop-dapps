@@ -1,94 +1,58 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { PurchaseHistory } from "../typechain-types";
-import { ContractTransaction, ContractTransactionResponse } from "ethers";
 
-describe("PurchaseHistory", () => {
-    let purchaseHistory: PurchaseHistory;
+describe("PurchaseHistory", function () {
+    let purchaseHistory: any;
     let owner: any;
-    let buyer: any;
-    let otherAccount: any;
+    let admin: any;
 
-    beforeEach(async () => {
-        [owner, buyer, otherAccount] = await ethers.getSigners();
-
-        const PurchaseHistoryFactory = await ethers.getContractFactory(
+    beforeEach(async function () {
+        [owner, admin] = await ethers.getSigners();
+        const PurchaseHistory = await ethers.getContractFactory(
             "PurchaseHistory"
         );
-        purchaseHistory = await PurchaseHistoryFactory.deploy();
-        await purchaseHistory.waitForDeployment();
+        purchaseHistory = await PurchaseHistory.deploy();
     });
 
-    describe("デプロイ", () => {
-        it("正しいオーナーがセットされるべき", async () => {
-            expect(await purchaseHistory.owner()).to.equal(owner.address);
-        });
+    it("should allow adding a purchase", async function () {
+        const items = [
+            { productId: 1, amount: 2 },
+            { productId: 2, amount: 3 },
+        ];
+        const totalPrice = 150; // USD amount spent in shop
+
+        await expect(purchaseHistory.addPurchase(items, totalPrice)).to.emit(
+            purchaseHistory,
+            "PurchaseEvent"
+        );
     });
 
-    describe("購入の追加", () => {
-        it("購入を正しく記録できるべき", async () => {
-            const productId = 1;
-            const amount = 100;
-
-            // トランザクションを実行
-            const tx = await purchaseHistory
-                .connect(buyer)
-                .addPurchase(productId, amount);
-
-            // イベントの検証
-            await expect(tx)
-                .to.emit(purchaseHistory, "PurchaseEvent")
-                .withArgs(
-                    buyer.address,
-                    productId,
-                    amount,
-                    await getBlockTimestamp(tx)
-                );
-
-            // 購入履歴の検証
-            const purchases = await purchaseHistory.getAllPurchases();
-            expect(purchases.length).to.equal(1);
-            expect(purchases[0].buyer).to.equal(buyer.address);
-            expect(purchases[0].productId).to.equal(productId);
-            expect(purchases[0].amount).to.equal(amount);
-        });
-
-        it("複数のユーザーが購入を記録できるべき", async () => {
-            await purchaseHistory.connect(buyer).addPurchase(1, 100);
-            await purchaseHistory.connect(otherAccount).addPurchase(2, 200);
-
-            const purchases = await purchaseHistory.getAllPurchases();
-            expect(purchases.length).to.equal(2);
-        });
+    it("should fetch total purchases count", async function () {
+        expect(await purchaseHistory.getTotalPurchases()).to.equal(0);
     });
 
-    describe("購入履歴の取得", () => {
-        it("オーナーのみが全購入履歴を取得できるべき", async () => {
-            await purchaseHistory.connect(buyer).addPurchase(1, 100);
+    it("should retrieve a single purchase", async function () {
+        const items = [{ productId: 1, amount: 2 }];
+        const totalPrice = 100; // USD amount spent in shop
+        await purchaseHistory.addPurchase(items, totalPrice);
 
-            // オーナーは履歴を取得できる
-            const purchases = await purchaseHistory.getAllPurchases();
-            expect(purchases.length).to.equal(1);
+        const [purchase, purchaseItems] = await purchaseHistory.getPurchase(0);
+        expect(purchase.buyer).to.equal(owner.address);
+        expect(purchaseItems.length).to.equal(1);
+        expect(purchaseItems[0].productId).to.equal(1);
+    });
 
-            // 非オーナーは履歴を取得できない
-            await expect(
-                purchaseHistory.connect(buyer).getAllPurchases()
-            ).to.be.revertedWith("Not authorized");
-        });
+    it("should paginate purchases correctly", async function () {
+        const items = [{ productId: 1, amount: 2 }];
+        for (let i = 0; i < 5; i++) {
+            await purchaseHistory.addPurchase(items, 100); // USD amount spent in shop
+        }
+
+        const [purchases, itemsBatch] = await purchaseHistory.getPurchases(
+            0,
+            3
+        );
+        expect(purchases.length).to.equal(3);
+        expect(itemsBatch.length).to.equal(3);
     });
 });
-
-// ヘルパー関数
-async function getBlockTimestamp(
-    tx: ContractTransactionResponse
-): Promise<number> {
-    const receipt = await tx.wait();
-    if (!receipt) {
-        throw new Error("Transaction receipt not found");
-    }
-    const block = await ethers.provider.getBlock(receipt.blockNumber);
-    if (!block) {
-        throw new Error("Block not found");
-    }
-    return block.timestamp;
-}

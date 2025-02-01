@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/state/cartStore";
-import ProductType from "@/type";
+import ProductType from "@/types/type";
 import { useRouter } from "next/navigation";
 
 const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
