@@ -87,7 +87,7 @@ const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
     return (
         <div className="min-h-screen bg-gray-50 max-w-7xl mx-auto">
             {/* Header */}
-            <header className="sticky top-0 z-50 bg-white px-4 py-3 flex justify-between items-center border-b border-gray-100">
+            <div className="sticky top-0 z-50 bg-white px-4 py-3 flex justify-between items-center border-b border-gray-100">
                 <button
                     onClick={() => router.back()}
                     className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -97,66 +97,68 @@ const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
                 <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                     <ShoppingCart size={24} />
                 </button>
-            </header>
+            </div>
 
             {/* Product Info */}
-            <div className="px-4 py-6">
+            <div className="px-4 py-6 bg-white">
                 <div className="space-y-2 mb-6">
                     {product && (
                         <>
-                            <p className="text-lg font-medium">
-                                USD {product.price}
-                            </p>
                             <h1 className="text-2xl font-bold">
                                 {product.title}
                             </h1>
+                            <p className="text-lg font-medium">
+                                USD ${product.price}
+                            </p>
                         </>
                     )}
                 </div>
 
-                {/* Tabs */}
-                <div className="border-b border-gray-200">
-                    <div className="flex gap-6">
-                        {tabs.map((tab) => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`pb-3 relative ${
-                                    activeTab === tab
-                                        ? "text-gray-900"
-                                        : "text-gray-500 hover:text-gray-700"
-                                }`}
-                            >
-                                {tab}
-                                {activeTab === tab && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-cs-blue" />
-                                )}
-                            </button>
-                        ))}
+                <div className="lg:flex lg:flex-row-reverse">
+                    <div className="lg:basis-2/3 lg:my-8 lg:p-8 lg:rounded-lg">
+                        {/* Tabs */}
+                        <div className="border-b border-gray-200">
+                            <div className="flex gap-6">
+                                {tabs.map((tab) => (
+                                    <button
+                                        key={tab}
+                                        onClick={() => setActiveTab(tab)}
+                                        className={`pb-3 relative ${
+                                            activeTab === tab
+                                                ? "text-gray-900"
+                                                : "text-gray-500 hover:text-gray-700"
+                                        }`}
+                                    >
+                                        {tab}
+                                        {activeTab === tab && (
+                                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-cs-blue" />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                        {/* Tab Content */}
+                        {renderTabContent()}
                     </div>
-                </div>
-
-                {/* Tab Content */}
-                {renderTabContent()}
-
-                {/* Product Image */}
-                <div className="my-8 bg-gray-100 rounded-xl p-8 lg:rounded-lg lg:w-4xl">
-                    {product && (
-                        <Image
-                            src={product.image}
-                            alt={product.title}
-                            width={300}
-                            height={300}
-                            className="w-full object-contain lg:w-"
-                        />
-                    )}
+                    {/* Product Image */}
+                    <div className="my-8 bg-gray-100 rounded-xl p-8 lg:rounded-lg lg:w-4xl lg:basis-1/3">
+                        {product && (
+                            <Image
+                                src={product.image}
+                                alt={product.title}
+                                width={300}
+                                height={300}
+                                className="w-full object-contain lg:w-"
+                            />
+                        )}
+                    </div>
                 </div>
 
                 {/* Add to Cart Button */}
                 <div className="mb-16 p-4 bg-white border-t border-gray-100">
                     <button
                         onClick={handleClick}
-                        className="w-full bg-cs-blue text-white py-4 rounded-xl font-medium hover:bg-cs-blue transition-colors"
+                        className="w-full bg-cs-blue text-white py-4 rounded-xl font-medium hover:bg-cs-lightblue transition-colors"
                     >
                         Add To Cart
                     </button>

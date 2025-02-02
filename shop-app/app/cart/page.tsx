@@ -105,7 +105,7 @@ const ShoppingCart = () => {
                                     {item.product.title}
                                 </h3>
                                 <p className="text-gray-900 mb-2">
-                                    USD {item.product.price}
+                                    USD ${item.product.price}
                                 </p>
                                 <div className="flex justify-between items-center">
                                     <p className="text-gray-600">
@@ -154,12 +154,12 @@ const ShoppingCart = () => {
                     <span className="text-gray-600">
                         Total {totalItems} items
                     </span>
-                    <span className="text-xl font-bold">USD {totalPrice}</span>
+                    <span className="text-xl font-bold">USD ${totalPrice}</span>
                 </div>
                 <button
                     onClick={handleCheckout}
                     disabled={isProcessing}
-                    className="w-full bg-cs-blue text-white py-4 rounded-xl font-medium hover:bg-cs-blue transition-colors flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-cs-blue text-white py-4 rounded-xl font-medium hover:bg-cs-lightblue transition-colors flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isProcessing ? (
                         "処理中..."

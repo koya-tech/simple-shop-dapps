@@ -71,7 +71,7 @@ export default function Home() {
                     onClick={() => {
                         router.push("/products");
                     }}
-                    className="bg-cs-blue text-cs-white"
+                    className="bg-cs-blue text-cs-white hover:bg-cs-lightblue"
                 >
                     Go to Shopping
                 </Button>
