@@ -77,7 +77,7 @@ const ProductList = () => {
                             className={`px-4 py-2 rounded-full whitespace-nowrap text-sm lg:text-base transition-colors
                 ${
                     activeCategory === category
-                        ? "bg-cs-green text-white"
+                        ? "bg-cs-blue text-white"
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
                         >

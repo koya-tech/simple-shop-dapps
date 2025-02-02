@@ -159,7 +159,7 @@ const ShoppingCart = () => {
                 <button
                     onClick={handleCheckout}
                     disabled={isProcessing}
-                    className="w-full bg-cs-green text-white py-4 rounded-xl font-medium hover:bg-emerald-500 transition-colors flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-cs-blue text-white py-4 rounded-xl font-medium hover:bg-cs-blue transition-colors flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isProcessing ? (
                         "処理中..."

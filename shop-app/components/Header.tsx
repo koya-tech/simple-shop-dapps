@@ -23,7 +23,7 @@ const Header = () => {
                 </button>
 
                 <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 lg:w-8 lg:h-8 bg-cs-green rounded-full"></div>
+                    <div className="w-6 h-6 lg:w-8 lg:h-8 bg-cs-blue rounded-full"></div>
                     <span className="text-lg lg:text-xl font-semibold text-cs-black">
                         ChainShop
                     </span>
@@ -35,7 +35,7 @@ const Header = () => {
                             <a
                                 key={index}
                                 href={item.link}
-                                className="text-gray-800 text-sm lg:text-base font-semibold hover:text-cs-green"
+                                className="text-gray-800 text-sm lg:text-base font-semibold hover:text-cs-blue"
                             >
                                 {item.name}
                             </a>
@@ -54,7 +54,7 @@ const Header = () => {
                             <a
                                 key={index}
                                 href={item.link}
-                                className="text-gray-800 text-base font-semibold hover:text-cs-green"
+                                className="text-gray-800 text-base font-semibold hover:text-cs-blue"
                             >
                                 {item.name}
                             </a>

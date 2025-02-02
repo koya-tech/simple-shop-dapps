@@ -56,13 +56,13 @@ const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
                     <div className="py-4">
                         <ul className="space-y-3">
                             <li className="flex items-start gap-2">
-                                <span className="w-2 h-2 mt-2 rounded-full bg-cs-green flex-shrink-0" />
+                                <span className="w-2 h-2 mt-2 rounded-full bg-cs-blue flex-shrink-0" />
                                 <span className="text-gray-600">
                                     Price : $ {product?.price}
                                 </span>
                             </li>
                             <li className="flex items-start gap-2">
-                                <span className="w-2 h-2 mt-2 rounded-full bg-cs-green flex-shrink-0" />
+                                <span className="w-2 h-2 mt-2 rounded-full bg-cs-blue flex-shrink-0" />
                                 <span className="text-gray-600">
                                     Rating : ★ {product?.rating.rate} /{" "}
                                     {product?.rating.count}
@@ -129,7 +129,7 @@ const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
                             >
                                 {tab}
                                 {activeTab === tab && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-cs-green" />
+                                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-cs-blue" />
                                 )}
                             </button>
                         ))}
@@ -156,7 +156,7 @@ const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
                 <div className="mb-16 p-4 bg-white border-t border-gray-100">
                     <button
                         onClick={handleClick}
-                        className="w-full bg-cs-green text-white py-4 rounded-xl font-medium hover:bg-emerald-500 transition-colors"
+                        className="w-full bg-cs-blue text-white py-4 rounded-xl font-medium hover:bg-cs-blue transition-colors"
                     >
                         Add To Cart
                     </button>

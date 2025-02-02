@@ -19,7 +19,7 @@ export default {
                     black: "#000000",
                     lightgray: "#f6f6f6",
                     darkgrey: "#7f7f7f",
-                    green: "#0ACF83",
+                    blue: "#4A4CF4",
                 },
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",

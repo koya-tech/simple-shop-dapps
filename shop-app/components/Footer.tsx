@@ -60,15 +60,13 @@ const Footer = () => {
                             <Icon
                                 size={24}
                                 className={
-                                    active
-                                        ? "text-cs-green"
-                                        : "text-cs-darkgrey"
+                                    active ? "text-cs-blue" : "text-cs-darkgrey"
                                 }
                             />
                             <span
                                 className={`text-xs ${
                                     active
-                                        ? "text-cs-green font-medium"
+                                        ? "text-cs-blue font-medium"
                                         : "text-cs-darkgrey"
                                 }`}
                             >
@@ -86,7 +84,7 @@ const Footer = () => {
                         {/* Brand Section */}
                         <div>
                             <div className="flex items-center gap-2 mb-6">
-                                <div className="w-8 h-8 bg-cs-green rounded-full"></div>
+                                <div className="w-8 h-8 bg-cs-blue rounded-full"></div>
                                 <span className="text-xl font-semibold">
                                     ChainShop
                                 </span>
@@ -99,7 +97,7 @@ const Footer = () => {
                                 {socialIcons.map(({ icon: Icon, label }) => (
                                     <button
                                         key={label}
-                                        className="p-2 text-cs-darkgrey hover:text-cs-green transition-colors"
+                                        className="p-2 text-cs-darkgrey hover:text-cs-blue transition-colors"
                                         aria-label={label}
                                     >
                                         <Icon size={20} />
@@ -119,7 +117,7 @@ const Footer = () => {
                                         <li key={label}>
                                             <a
                                                 href={href}
-                                                className="text-cs-darkgrey hover:text-cs-green transition-colors"
+                                                className="text-cs-darkgrey hover:text-cs-blue transition-colors"
                                             >
                                                 {label}
                                             </a>
