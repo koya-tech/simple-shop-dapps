@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/state/cartStore";
-import ProductType from "@/types/type";
 import { useRouter } from "next/navigation";
+import { ProductType } from "@/types/type";
 
 const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
     const tabs = ["Overview", "Other"];

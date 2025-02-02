@@ -21,7 +21,7 @@ contract PurchaseHistory {
     Purchase[] private _purchases;
     mapping(uint256 => PurchaseItem[]) private _purchaseItems;
     
-    error Unauthorized();
+    // error Unauthorized();
     error EmptyPurchase();
     error InvalidPrice();
     error InvalidIndex();
@@ -33,16 +33,16 @@ contract PurchaseHistory {
         uint256 timestamp
     );
     
-    modifier onlyOwner() {
-        if (msg.sender != _owner) {
-            revert Unauthorized();
-        }
-        _;
-    }
+    // modifier onlyOwner() {
+    //     if (msg.sender != _owner) {
+    //         revert Unauthorized();
+    //     }
+    //     _;
+    // }
     
-    constructor() {
-        _owner = msg.sender;
-    }
+    // constructor() {
+    //     _owner = msg.sender;
+    // }
     
     /**
      * @dev Add a new purchase to the history
@@ -81,8 +81,7 @@ contract PurchaseHistory {
      */
     function getPurchase(uint256 index) 
         external 
-        view 
-        onlyOwner 
+        view
         returns (Purchase memory, PurchaseItem[] memory) 
     {
         if (index >= _purchases.length) {
@@ -100,8 +99,7 @@ contract PurchaseHistory {
     function getPurchases(uint256 start, uint256 count)
         external
         view
-        onlyOwner
-        returns (Purchase[] memory, PurchaseItem[][] memory)
+       returns (Purchase[] memory, PurchaseItem[][] memory)
     {
         if (start >= _purchases.length) {
             revert InvalidIndex();
@@ -127,15 +125,15 @@ contract PurchaseHistory {
      * @dev Get the total number of purchases
      * @return The count of purchases
      */
-    function getTotalPurchases() external view onlyOwner returns (uint256) {
+    function getTotalPurchases() external view returns (uint256) {
         return _purchases.length;
     }
     
-    /**
-     * @dev Get the contract owner
-     * @return Address of the contract owner
-     */
-    function owner() external view returns (address) {
-        return _owner;
-    }
+    // /**
+    //  * @dev Get the contract owner
+    //  * @return Address of the contract owner
+    //  */
+    // function owner() external view returns (address) {
+    //     return _owner;
+    // }
 }

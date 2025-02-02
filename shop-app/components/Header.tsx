@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import menu from "./menuList";
+import Link from "next/link";
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,7 +41,9 @@ const Header = () => {
                             </a>
                         ))}
                     </div>
-                    <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gray-200"></div>
+                    <Link href={"/admin"}>
+                        <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gray-200"></div>
+                    </Link>
                 </div>
             </div>
 

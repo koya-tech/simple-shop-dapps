@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import router from "next/navigation";
-import ProductType from "@/types/type";
 import { useCartStore } from "@/state/cartStore";
+import { ProductType } from "@/types/type";
 
 const ProductList = () => {
     const [activeCategory, setActiveCategory] = useState("all");

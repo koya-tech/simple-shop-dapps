@@ -5,8 +5,8 @@ import Image from "next/image";
 import { ArrowLeft, Trash2, ChevronRight, Plus, Minus } from "lucide-react";
 import { useCartStore } from "@/state/cartStore";
 import { ethers } from "ethers";
-import { toast } from "@/hooks/use-toast";
 import { CartItemType } from "@/types/type";
+import { useRouter } from "next/navigation";
 
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!;
 const CONTRACT_ABI = JSON.parse(process.env.NEXT_PUBLIC_CONTRACT_ABI!);
@@ -14,6 +14,7 @@ const CONTRACT_ABI = JSON.parse(process.env.NEXT_PUBLIC_CONTRACT_ABI!);
 const ShoppingCart = () => {
     const { cartItems, removeFromCart, updateQuantity } = useCartStore();
     const [isProcessing, setIsProcessing] = useState(false);
+    const router = useRouter();
 
     const totalItems = cartItems.reduce(
         (sum: number, item: CartItemType) => sum + item.quantity,
@@ -27,12 +28,8 @@ const ShoppingCart = () => {
 
     const handleCheckout = async () => {
         if (!window.ethereum) {
-            toast({
-                title: "Need to install MetaMask",
-                description:
-                    "If you want to do transaction, you need to install MetaMask",
-                variant: "destructive",
-            });
+            // display error message to user that they need to install MetaMask
+            alert("Please install MetaMask to proceed with the purchase.");
             return;
         }
 
@@ -48,31 +45,28 @@ const ShoppingCart = () => {
                 signer
             );
 
-            // const productIds = cartItems.map((item) => item.product.id);
-            // const quantities = cartItems.map((item) => item.quantity);
-
             const purchaseItems = cartItems.map((item) => ({
                 productId: item.product.id,
                 amount: item.quantity,
             }));
 
-            const tx = await contract.addPurchase(purchaseItems, totalPrice);
+            // totalPrice is in US dollars, so pass it as an integer by rounding it down.
+            const tx = await contract.addPurchase(
+                purchaseItems,
+                Math.floor(totalPrice)
+            );
 
             await tx.wait();
 
-            toast({
-                title: "Completed",
-                description: "register your purchase history on blockchain",
-            });
+            //display message to user that purchase was successful
+            alert("Purchase successful!");
         } catch (error) {
             console.error("Checkout error:", error);
-            toast({
-                title: "Error occurred",
-                description: "Failed to register your purchase history",
-                variant: "destructive",
-            });
+            //display error message to user that purchase was unsuccessful
+            alert("Purchase unsuccessful. Please try again.");
         } finally {
             setIsProcessing(false);
+            router.push("/");
         }
     };
 
