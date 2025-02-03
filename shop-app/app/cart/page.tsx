@@ -75,7 +75,12 @@ const ShoppingCart = () => {
             {/* Header */}
             <div className="sticky top-0 z-50 bg-white px-4 py-3 flex items-center border-b border-gray-100">
                 <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                    <ArrowLeft size={24} />
+                    <ArrowLeft
+                        size={24}
+                        onClick={() => {
+                            router.back();
+                        }}
+                    />
                 </button>
                 <h1 className="flex-1 text-center text-lg font-semibold">
                     Shopping Cart

@@ -60,7 +60,7 @@ const ProductList = () => {
     if (isLoading) {
         return (
             <div className="text-center py-12">
-                <p className="text-gray-600">Loading....</p>
+                <Image src={"/loading.gif"} alt={"loading"} />
             </div>
         );
     }

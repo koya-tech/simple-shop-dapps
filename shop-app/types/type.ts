@@ -23,4 +23,24 @@ type CartStore = {
     updateQuantity: (id: number, quantity: number) => void;
 };
 
-export type { ProductType, CartItemType, CartStore };
+type Purchase = {
+    buyer: string;
+    totalPrice: number;
+    timestamp: bigint;
+};
+
+type PurchaseItem = {
+    productId: number;
+    amount: number;
+};
+
+type PurchasesResponse = [Purchase[], PurchaseItem[][]];
+
+export type {
+    PurchasesResponse,
+    Purchase,
+    PurchaseItem,
+    ProductType,
+    CartItemType,
+    CartStore,
+};

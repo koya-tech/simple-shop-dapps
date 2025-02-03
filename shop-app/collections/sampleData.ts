@@ -209,4 +209,44 @@ const sampleCategories = [
     "women's clothing",
 ];
 
-export { sampleProducts, sampleCategories };
+// サンプルデータ
+const samplePurchases = [
+    {
+        buyer: "0x1234...5678",
+        totalPrice: 0.5,
+        timestamp: 1706851200000, // 2024-02-02 00:00:00
+    },
+    {
+        buyer: "0x8765...4321",
+        totalPrice: 1.2,
+        timestamp: 1706854800000, // 2024-02-02 01:00:00
+    },
+    {
+        buyer: "0x9876...0123",
+        totalPrice: 0.8,
+        timestamp: 1706858400000, // 2024-02-02 02:00:00
+    },
+];
+
+const samplePurchaseItems = [
+    [
+        { productId: 1, amount: 2 },
+        { productId: 3, amount: 1 },
+    ],
+    [
+        { productId: 2, amount: 1 },
+        { productId: 4, amount: 3 },
+        { productId: 5, amount: 1 },
+    ],
+    [
+        { productId: 1, amount: 1 },
+        { productId: 6, amount: 2 },
+    ],
+];
+
+export {
+    samplePurchases,
+    samplePurchaseItems,
+    sampleProducts,
+    sampleCategories,
+};
