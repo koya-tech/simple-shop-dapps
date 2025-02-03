@@ -1,41 +1,97 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/eSaoJpyE)
-# OOP & TS - Midterm
+# Blockchain Purchase History Dapps
 
-## ⚽️ Objective
+## Overview
 
-Create a fake store website using OOP. You will create the necessary classes and methods needed to make a working shop. The file structure has already been provided but you are free to customize this by adding new files/components if needed.
+This project is a simple dapps that records users' purchase history on the blockchain and allows administrators to view the purchase history. It uses the FakeStore API for product information and stores purchase records on the Ethereum blockchain.
 
-**API:** [https://fakestoreapi.com/products]
+![screenshot](./shop-app/public/Screenshot.png)
 
-## 📖 Instructions
+## Key Features
 
-1. Clone the repository to your local machine.
-2. Install the node packages by running `npm install` on your terminal.
-3. Plan and design how your shop will look like. The main focus of this project is functionality so it's okay if your shop doesn't have the best design, as long as it's clean and user-friendly.
-4. Run `npm run dev` to start you live server.
-5. Commit and push your changes once you are done.
+-   Product purchase by users and recording of purchase history on blockchain
+-   Purchase history list view for administrators
+-   Product listing using FakeStore API
+-   Wallet connection using MetaMask
+-   Permanent storage of purchase data through smart contracts
+-   can see Purchase History on admin page (admin/admin)
 
-## ⚙️ Features
+## Tech Stack
 
-- Show a list of products from an API, with image, title, price and description
-- Be able to add products to the cart
-- Be able to change the quantity of each item in the cart
-- Be able to remove items from the cart
-- Show the total number of items in the cart
-- Show the total price of the items in the cart
+-   **Frontend**
+    -   Next.js
+    -   React
+    -   TypeScript
+    -   Tailwind CSS
+-   **Blockchain**
+    -   Solidity
+    -   Hardhat
+    -   Ethereum
+-   **External API**
+    -   FakeStore API
 
-## 🔣 Methods
+## Prerequisites
 
-You need to modify your `CartContext.js` file to include methods such as:
+-   Node.js 16.0 or higher
+-   MetaMask wallet
+-   yarn or npm
 
-- `addProduct(product)`
-- `updateQuantity(id)`
-- `removeProduct(id)`
+## Installation
 
-## 🗒️ Notes
+```bash
+# Clone the repository
+git clone https://github.com/username/blockchain-purchase-history.git
 
-- Place your CSS code inside the `style.css` file.
-- You can customize the file structure if you like. Just make sure to create one file per class/component.
-- Although functionality is the priority, your shop still needs to be responsive as always.
+# Navigate to the project directory
+cd blockchain-purchase-history
 
-Good luck!
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+```
+
+## Smart Contract Deployment
+
+```bash
+# Start local network
+npx hardhat node
+
+# Deploy smart contracts
+npx hardhat ignition deploy ignition/modules/PurchaseHistory.ts --network localhost
+```
+
+## Development Server
+
+```bash
+# Start development server
+npm run dev
+```
+
+## Environment Variables
+
+Set up the following environment variables in your `.env.local` file:
+
+```
+NEXT_PUBLIC_CONTRACT_ADDRESS=your_deployed_contract_address
+NEXT_PUBLIC_CONTRACT_ABI=contruct_abi
+```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Local Development
+
+For local development, ensure you have MetaMask installed and configured to work with your local Hardhat network:
+
+1. Start the local Hardhat network
+2. Deploy the smart contracts
+3. Configure MetaMask to connect to localhost:8545
+4. Import test accounts using private keys provided by Hardhat
+
+## Security
+
+-   Smart contracts have been developed with security best practices
+-   Users should always verify transactions in MetaMask
+-   Admin functions are protected with appropriate access controls
