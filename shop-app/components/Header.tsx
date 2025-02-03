@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import menu from "./menuList";
 import Link from "next/link";
+import Image from "next/image";
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,7 +43,14 @@ const Header = () => {
                         ))}
                     </div>
                     <Link href={"/admin"}>
-                        <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gray-200"></div>
+                        {/* <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gray-200"></div> */}
+                        <Image
+                            src={"/administrator.png"}
+                            alt={"administrator"}
+                            width={40}
+                            height={40}
+                            className="w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-gray-200"
+                        />
                     </Link>
                 </div>
             </div>

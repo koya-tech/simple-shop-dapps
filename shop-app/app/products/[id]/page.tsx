@@ -79,7 +79,14 @@ const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
     if (isLoading) {
         return (
             <div className="text-center py-12">
-                <p className="text-gray-600">Loading....</p>
+                <Image
+                    src={"/loading.gif"}
+                    alt={"loading"}
+                    width={100}
+                    height={100}
+                    className="mx-auto"
+                    unoptimized
+                />
             </div>
         );
     }
@@ -148,7 +155,8 @@ const ProductDetail = ({ params }: { params: Promise<{ id: string }> }) => {
                                 alt={product.title}
                                 width={300}
                                 height={300}
-                                className="w-full object-contain lg:w-"
+                                className="w-full object-contain"
+                                priority
                             />
                         )}
                     </div>

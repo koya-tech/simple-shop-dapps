@@ -50,7 +50,6 @@ const ShoppingCart = () => {
                 amount: item.quantity,
             }));
 
-            // totalPrice is in US dollars, so pass it as an integer by rounding it down.
             const tx = await contract.addPurchase(
                 purchaseItems,
                 Math.floor(totalPrice)
@@ -58,7 +57,6 @@ const ShoppingCart = () => {
 
             await tx.wait();
 
-            //display message to user that purchase was successful
             alert("Purchase successful!");
         } catch (error) {
             console.error("Checkout error:", error);
@@ -167,7 +165,7 @@ const ShoppingCart = () => {
                     className="w-full bg-cs-blue text-white py-4 rounded-xl font-medium hover:bg-cs-lightblue transition-colors flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isProcessing ? (
-                        "処理中..."
+                        "Processing..."
                     ) : (
                         <>
                             Proceed to Checkout

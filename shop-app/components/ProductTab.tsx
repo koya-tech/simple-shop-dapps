@@ -60,7 +60,13 @@ const ProductList = () => {
     if (isLoading) {
         return (
             <div className="text-center py-12">
-                <Image src={"/loading.gif"} alt={"loading"} />
+                <Image
+                    src={"/loading.gif"}
+                    alt={"loading"}
+                    width={100}
+                    height={100}
+                    className="mx-auto"
+                />
             </div>
         );
     }
@@ -103,6 +109,7 @@ const ProductList = () => {
                                     width={300}
                                     height={300}
                                     className="w-full aspect-square object-contain rounded-lg"
+                                    priority
                                 />
                                 <h3 className="font-medium my-2 text-gray-900">
                                     {product.title}

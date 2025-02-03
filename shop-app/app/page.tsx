@@ -66,7 +66,7 @@ export default function Home() {
                 </div>
             </div>
             {/* <ProductTab /> */}
-            <div className="flex justify-center mt-10">
+            <div className="flex justify-center mt-6 mb-20">
                 <Button
                     onClick={() => {
                         router.push("/products");
